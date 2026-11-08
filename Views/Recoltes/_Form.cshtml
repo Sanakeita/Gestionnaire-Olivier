@@ -1,0 +1,19 @@
+@model Recolte
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<label asp-for="OlivierId">@T["Olivier"]</label>
+<select asp-for="OlivierId" asp-items="ViewBag.OlivierId"></select>
+<label asp-for="Annee">@T["Année"]</label>
+<input asp-for="Annee" />
+<span asp-validation-for="Annee" class="text-danger"></span>
+<label asp-for="QuantiteKg">@T["Quantité (kg)"]</label>
+<input asp-for="QuantiteKg" />
+<span asp-validation-for="QuantiteKg" class="text-danger"></span>
+<label asp-for="DateRecolte">@T["Date de récolte"]</label>
+<input asp-for="DateRecolte" type="date" />
+<label asp-for="Qualite">@T["Qualité"]</label>
+<select asp-for="Qualite">
+    <option value="">—</option>
+    <option value="Extra">@T["Extra"]</option>
+    <option value="Vierge">@T["Vierge"]</option>
+    <option value="Courante">@T["Courante"]</option>
+</select>

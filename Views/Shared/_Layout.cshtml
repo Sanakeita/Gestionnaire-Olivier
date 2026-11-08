@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="@CultureInfo.CurrentUICulture.Name" dir="@(CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ar" ? "rtl" : "ltr")">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] — @T["Oliviers"]</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" asp-controller="Home" asp-action="Index">
+            <span class="brand-mark" aria-hidden="true">🫒</span>
+            <span>
+                <strong>@T["Oliviers"]</strong>
+                <small>@T["Gestion des champs"]</small>
+            </span>
+        </a>
+        <nav>
+            <a asp-controller="Home" asp-action="Index">@T["Accueil"]</a>
+            <a asp-controller="Champs" asp-action="Index">@T["Champs"]</a>
+            <a asp-controller="Oliviers" asp-action="Index">@T["Oliviers"]</a>
+            <a asp-controller="Recoltes" asp-action="Index">@T["Récoltes"]</a>
+            <a class="nav-accent" asp-controller="Evolution" asp-action="Index">@T["Évolution"]</a>
+        </nav>
+        <form asp-controller="Culture" asp-action="SetLanguage" method="post" class="language-form">
+            <input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
+            <label class="sr-only" for="culture">@T["Langue"]</label>
+            <select id="culture" name="culture" aria-label="@T["Langue"]" onchange="this.form.requestSubmit()">
+                <option value="fr" selected="@(CultureInfo.CurrentUICulture.Name.StartsWith("fr", StringComparison.OrdinalIgnoreCase))">Français</option>
+                <option value="en" selected="@(CultureInfo.CurrentUICulture.Name.StartsWith("en", StringComparison.OrdinalIgnoreCase))">English</option>
+                <option value="ar" selected="@(CultureInfo.CurrentUICulture.Name.StartsWith("ar", StringComparison.OrdinalIgnoreCase))">العربية</option>
+                <option value="zh-CN" selected="@(CultureInfo.CurrentUICulture.Name.StartsWith("zh", StringComparison.OrdinalIgnoreCase))">中文</option>
+            </select>
+            <button type="submit">@T["Changer"]</button>
+        </form>
+    </header>
+    <main class="page">
+        @if (TempData["Message"] is string message)
+        {
+            <div class="flash">@message</div>
+        }
+        @RenderBody()
+    </main>
+    <footer class="footer">
+        @T["Une récolte par olivier et par an — suivi des productions par champ."]
+    </footer>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,99 @@
+@{
+    ViewData["Title"] = T["Évolution des récoltes"];
+    var filtre = (EvolutionFiltre)ViewBag.Filtre;
+    var lignes = (IEnumerable<dynamic>)ViewBag.Lignes;
+}
+<h1>@T["Évolution des récoltes"]</h1>
+<p class="lede">@T["Production annuelle agrégée par champ, pour la période choisie."]</p>
+
+<form method="get" class="panel filters">
+    <div>
+        <label for="anneeDebut">@T["Année de début"]</label>
+        <input type="number" name="anneeDebut" value="@filtre.AnneeDebut" />
+    </div>
+    <div>
+        <label for="anneeFin">@T["Année de fin"]</label>
+        <input type="number" name="anneeFin" value="@filtre.AnneeFin" />
+    </div>
+    <div>
+        <label>@T["Champ"]</label>
+        <select name="champId" asp-items="ViewBag.Champs">
+            <option value="">@T["Tous les champs"]</option>
+        </select>
+    </div>
+    <button type="submit">@T["Afficher"]</button>
+</form>
+
+<div class="stats">
+    <div class="stat"><span>@T["Période"]</span><strong>@filtre.AnneeDebut–@filtre.AnneeFin</strong></div>
+    <div class="stat"><span>@T["Total période"]</span><strong>@(((double)ViewBag.TotalPeriode).ToString("N0")) @T["kg"]</strong></div>
+    <div class="stat"><span>@T["Moyenne annuelle"]</span><strong>@(((double)ViewBag.MoyenneAnnuelle).ToString("N0")) @T["kg"]</strong></div>
+</div>
+
+<div class="card chart-card" style="margin-top:1.2rem;">
+    <canvas id="chartRecoltes"></canvas>
+</div>
+
+<div class="table-wrap" style="margin-top:1.2rem;">
+    <table>
+        <thead>
+            <tr>
+                <th>@T["Année"]</th>
+                <th>@T["Champ"]</th>
+                <th>@T["Oliviers récoltés"]</th>
+                <th>@T["Total (kg)"]</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var ligne in lignes)
+        {
+            <tr>
+                <td>@ligne.Annee</td>
+                <td>@ligne.Champ</td>
+                <td>@ligne.NbOliviers</td>
+                <td>@ligne.TotalKg.ToString("N1")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script>
+        const annees = @Html.Raw(ViewBag.AnneesJson);
+        const series = @Html.Raw(ViewBag.SeriesJson);
+        const colors = ["#4f6f3a", "#c9a227", "#8b5a2b", "#3d6b8a", "#6b4f8a"];
+        new Chart(document.getElementById("chartRecoltes"), {
+            type: "line",
+            data: {
+                labels: annees,
+                datasets: series.map((s, i) => ({
+                    label: s.label,
+                    data: s.data,
+                    borderColor: colors[i % colors.length],
+                    backgroundColor: colors[i % colors.length] + "33",
+                    tension: 0.25,
+                    fill: false,
+                    pointRadius: 4
+                }))
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: "top",
+                        rtl: @Html.Raw(CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ar" ? "true" : "false"),
+                        textDirection: "@(CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ar" ? "rtl" : "ltr")"
+                    },
+                    title: { display: true, text: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(T["Kilogrammes récoltés par champ et par an"])) }
+                },
+                scales: {
+                    y: { beginAtZero: true, title: { display: true, text: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(T["kg"])) } },
+                    x: { title: { display: true, text: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(T["Année"])) } }
+                }
+            }
+        });
+    </script>
+}

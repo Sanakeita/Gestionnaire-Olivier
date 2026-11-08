@@ -1,0 +1,10 @@
+@model Olivier
+@{
+    ViewData["Title"] = T["Supprimer l’olivier"];
+}
+<h1>@T["Supprimer l’olivier"] @Model.Code ?</h1>
+<p class="lede">@T["Les récoltes de cet olivier seront également supprimées."]</p>
+<form asp-action="Delete" method="post" class="panel">
+    <button class="btn danger" type="submit">@T["Confirmer la suppression"]</button>
+    <a class="btn secondary" asp-action="Index">@T["Annuler"]</a>
+</form>

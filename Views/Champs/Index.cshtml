@@ -1,0 +1,40 @@
+@model IEnumerable<Champ>
+@{
+    ViewData["Title"] = T["Champs"];
+}
+<div class="toolbar">
+    <div>
+        <h1>@T["Champs"]</h1>
+        <p class="lede">@T["Parcelles d’oliviers suivies dans l’exploitation."]</p>
+    </div>
+    <a class="btn" asp-action="Create">@T["Nouveau champ"]</a>
+</div>
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>@T["Nom"]</th>
+                <th>@T["Localisation"]</th>
+                <th>@T["Superficie"]</th>
+                <th>@T["Oliviers"]</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var champ in Model)
+        {
+            <tr>
+                <td>@champ.Nom</td>
+                <td>@champ.Localisation</td>
+                <td>@champ.SuperficieHa.ToString("N2") ha</td>
+                <td>@champ.Oliviers.Count</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@champ.Id">@T["Détail"]</a> ·
+                    <a asp-action="Edit" asp-route-id="@champ.Id">@T["Modifier"]</a> ·
+                    <a asp-action="Delete" asp-route-id="@champ.Id">@T["Supprimer"]</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,10 @@
+@model Champ
+@{
+    ViewData["Title"] = T["Supprimer le champ"];
+}
+<h1>@T["Supprimer"] @Model.Nom ?</h1>
+<p class="lede">@T["Les oliviers et les récoltes associés seront également supprimés."]</p>
+<form asp-action="Delete" method="post" class="panel">
+    <button class="btn danger" type="submit">@T["Confirmer la suppression"]</button>
+    <a class="btn secondary" asp-action="Index">@T["Annuler"]</a>
+</form>

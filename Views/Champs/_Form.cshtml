@@ -1,0 +1,12 @@
+@model Champ
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<label asp-for="Nom">@T["Nom"]</label>
+<input asp-for="Nom" />
+<span asp-validation-for="Nom" class="text-danger"></span>
+<label asp-for="Localisation">@T["Localisation"]</label>
+<input asp-for="Localisation" />
+<label asp-for="SuperficieHa">@T["Superficie (ha)"]</label>
+<input asp-for="SuperficieHa" />
+<span asp-validation-for="SuperficieHa" class="text-danger"></span>
+<label asp-for="Notes">@T["Notes"]</label>
+<textarea asp-for="Notes" rows="3"></textarea>

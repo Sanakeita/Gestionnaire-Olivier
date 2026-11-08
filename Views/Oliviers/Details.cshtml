@@ -1,0 +1,27 @@
+@model Olivier
+@{
+    ViewData["Title"] = Model.Code;
+}
+<h1>@T["Olivier"] @Model.Code</h1>
+<p class="lede">@Model.Champ?.Nom — @Model.Variete @(Model.AnneePlantation is int a ? $"{T["planté en"]} {a}" : "")</p>
+<div class="toolbar">
+    <a class="btn" asp-controller="Recoltes" asp-action="Create">@T["Ajouter une récolte"]</a>
+</div>
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr>            <th>@T["Année"]</th><th>@T["Quantité"]</th><th>@T["Date"]</th><th>@T["Qualité"]</th></tr>
+        </thead>
+        <tbody>
+        @foreach (var recolte in Model.Recoltes.OrderByDescending(r => r.Annee))
+        {
+            <tr>
+                <td>@recolte.Annee</td>
+                <td>@recolte.QuantiteKg.ToString("N1") kg</td>
+                <td>@(recolte.DateRecolte?.ToString("d") ?? "—")</td>
+                <td>@T[recolte.Qualite ?? ""]</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

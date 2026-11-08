@@ -1,0 +1,22 @@
+@{
+    ViewData["Title"] = T["Accueil"];
+}
+
+<section class="hero">
+    <h1>@T["Suivi des champs d’oliviers"]</h1>
+    <p>
+        @T["Chaque olivier produit une récolte par an. Enregistrez vos champs, vos arbres et leurs productions, puis visualisez l’évolution des récoltes par champ sur une période donnée."]
+    </p>
+    <div class="stats">
+        <div class="stat"><span>@T["Champs"]</span><strong>@ViewBag.NbChamps</strong></div>
+        <div class="stat"><span>@T["Oliviers"]</span><strong>@ViewBag.NbOliviers</strong></div>
+        <div class="stat"><span>@T["Récoltes"]</span><strong>@ViewBag.NbRecoltes</strong></div>
+        <div class="stat"><span>@T["Total récolté"]</span><strong>@(((double)ViewBag.TotalKg).ToString("N0")) @T["kg"]</strong></div>
+    </div>
+</section>
+
+<div class="toolbar">
+    <a class="btn" asp-controller="Champs" asp-action="Create">@T["Nouveau champ"]</a>
+    <a class="btn secondary" asp-controller="Recoltes" asp-action="Create">@T["Saisir une récolte"]</a>
+    <a class="btn secondary" asp-controller="Evolution" asp-action="Index">@T["Voir l’évolution"]</a>
+</div>

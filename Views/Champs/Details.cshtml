@@ -1,0 +1,29 @@
+@model Champ
+@{
+    ViewData["Title"] = Model.Nom;
+}
+<h1>@Model.Nom</h1>
+<p class="lede">@Model.Localisation — @Model.SuperficieHa.ToString("N2") ha</p>
+<p>@Model.Notes</p>
+<div class="toolbar">
+    <a class="btn" asp-controller="Oliviers" asp-action="Create">@T["Ajouter un olivier"]</a>
+    <a class="btn secondary" asp-controller="Evolution" asp-action="Index" asp-route-champId="@Model.Id">@T["Voir l’évolution"]</a>
+</div>
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr><th>@T["Olivier"]</th><th>@T["Variété"]</th><th>@T["Récoltes"]</th><th>@T["Total (kg)"]</th></tr>
+        </thead>
+        <tbody>
+        @foreach (var olivier in Model.Oliviers)
+        {
+            <tr>
+                <td><a asp-controller="Oliviers" asp-action="Details" asp-route-id="@olivier.Id">@olivier.Code</a></td>
+                <td>@olivier.Variete</td>
+                <td>@olivier.Recoltes.Count</td>
+                <td>@olivier.Recoltes.Sum(r => r.QuantiteKg).ToString("N1")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

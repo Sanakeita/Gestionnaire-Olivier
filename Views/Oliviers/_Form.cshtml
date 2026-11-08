@@ -1,0 +1,11 @@
+@model Olivier
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<label asp-for="Code">@T["Identifiant"]</label>
+<input asp-for="Code" />
+<span asp-validation-for="Code" class="text-danger"></span>
+<label asp-for="ChampId">@T["Champ"]</label>
+<select asp-for="ChampId" asp-items="ViewBag.ChampId"></select>
+<label asp-for="Variete">@T["Variété"]</label>
+<input asp-for="Variete" />
+<label asp-for="AnneePlantation">@T["Année de plantation"]</label>
+<input asp-for="AnneePlantation" />

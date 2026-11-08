@@ -1,0 +1,12 @@
+@model Champ
+@{
+    ViewData["Title"] = T["Nouveau champ"];
+}
+<h1>@T["Nouveau champ"]</h1>
+<form asp-action="Create" class="panel" method="post">
+    <partial name="_Form" />
+    <div class="toolbar">
+        <button type="submit">@T["Enregistrer"]</button>
+        <a class="btn secondary" asp-action="Index">@T["Annuler"]</a>
+    </div>
+</form>

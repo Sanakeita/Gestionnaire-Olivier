@@ -1,0 +1,10 @@
+@model Recolte
+@{
+    ViewData["Title"] = T["Supprimer la récolte"];
+}
+<h1>@T["Supprimer la récolte"] @Model.Annee ?</h1>
+<p class="lede">@T["Olivier"] @Model.Olivier?.Code — @Model.QuantiteKg.ToString("N1") @T["kg"]</p>
+<form asp-action="Delete" method="post" class="panel">
+    <button class="btn danger" type="submit">@T["Confirmer la suppression"]</button>
+    <a class="btn secondary" asp-action="Index">@T["Annuler"]</a>
+</form>
